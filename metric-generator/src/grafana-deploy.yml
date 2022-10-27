@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: vmware
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+---
+kind: Service 
+apiVersion: v1 
+metadata:
+  namespace: vmware
+  name: grafana 
+spec:
+  type: NodePort
+  selector:
+    app: grafana 
+  ports:
+    - nodePort: 30165
+      port: 3000
+      targetPort: 3000

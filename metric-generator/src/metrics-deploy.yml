@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vmware
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-generator
+  namespace: vmware
+  labels:
+    app: metrics
+spec:
+  selector:
+    matchLabels:
+      app: metrics
+  template:
+    metadata:
+      labels:
+        app: metrics
+    spec:
+      containers:
+        - name: metric-generator
+          image: metric-generator
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+---
+kind: Service 
+apiVersion: v1 
+metadata:
+  namespace: vmware
+  name: metrics-generator-service 
+spec:
+  type: NodePort
+  selector:
+    app: metrics 
+  ports:
+    - nodePort: 30163
+      port: 9090
+      targetPort: 8000

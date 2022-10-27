@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: vmware
+  labels:
+    app: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+---
+kind: Service 
+apiVersion: v1 
+metadata:
+  namespace: vmware
+  name: prometheus-service 
+spec:
+  type: NodePort
+  selector:
+    app: prometheus 
+  ports:
+    - nodePort: 30164
+      port: 8000
+      targetPort: 9090

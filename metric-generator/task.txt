@@ -1,0 +1,19 @@
+Create a solution (in either golang or python) designed to run on a Kubernetes Cluster to monitor internet urls and provide Prometheus metrics, once completed please upload your solution to your github.com account.  Please make it public.
+
+Requirements:
+    A service written in python or golang that queries 2 urls (https://httpstat.us/503 & https://httpstat.us/200)
+    The service will check the external urls (https://httpstat.us/503 & https://httpstat.us/200 ) are up (based on http status code 200) and response time in milliseconds
+    The service will run a simple http service that produces metrics using appropriate Prometheus libraries and outputs on /metrics
+    Expected response format:
+        sample_external_url_up{url="https://httpstat.us/503 "}  = 0
+        sample_external_url_response_ms{url="https://httpstat.us/503 "}  = [value]
+        sample_external_url_up{url="https://httpstat.us/200 "}  = 1
+        sample_external_url_response_ms{url="https://httpstat.us/200 "}  = [value]
+
+Success Criteria:
+    Code in python or golang
+    Dockerfile to build image
+    Kubernetes Deployment Specification to deploy Image to Kubernetes Cluster
+    Unit Tests
+    README providing instructions for use
+    Screen shots of deployment in Prometheus and accompanying Grafana Dashboard
